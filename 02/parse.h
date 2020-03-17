@@ -14,5 +14,5 @@ void register_on_begin_callback(OnLim callback);
 
 void register_on_end_callback(OnLim callback);
 
-void parse(const std::string str);// OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd);
+void parse(const std::string str);
 

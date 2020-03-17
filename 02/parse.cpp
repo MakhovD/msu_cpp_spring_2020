@@ -1,9 +1,9 @@
 #include "parse.h"
 
-static OnNumber fNumber;
-static OnLetter fLetter;
-static OnLim fBegin;
-static OnLim fEnd;
+OnNumber fNumber = nullptr;
+OnLetter fLetter = nullptr;
+OnLim fBegin = nullptr;
+OnLim fEnd = nullptr;
 
 void register_on_number_callback(OnNumber callback){
     fNumber = callback;
@@ -21,20 +21,20 @@ void register_on_end_callback(OnLim callback){
     fEnd = callback;
 }
 
-void parse(const std::string str){//, OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd){
-    fBegin();
+void parse(const std::string str){
+    if(fBegin != nullptr) fBegin();
     size_t pos_1 = 0;
     size_t found;
     std::string token;
 
     while((found = str.find_first_of(" \n\t", pos_1))!=std::string::npos){
         token = str.substr(pos_1, found-pos_1);
-        if (isdigit(token[0])){
+        if ((isdigit(token[0]))&&(fNumber!= nullptr)){
             int number = atoi(token.c_str());
             fNumber(number);
         }
-        else fLetter(token);
+        else if (fLetter!=nullptr) fLetter(token);
         pos_1 = str.find_first_not_of(" \n\t", found);
     }
-    fEnd();
+    if(fEnd != nullptr) fEnd();
 }

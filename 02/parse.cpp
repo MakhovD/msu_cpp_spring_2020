@@ -21,7 +21,7 @@ void register_on_end_callback(OnLim callback){
     fEnd = callback;
 }
 
-void parse(const std::string str){
+void parse(const std::string& str){
     if(fBegin != nullptr) fBegin();
     size_t pos_1 = 0;
     size_t found;

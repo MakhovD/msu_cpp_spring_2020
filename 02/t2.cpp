@@ -1,5 +1,5 @@
 #include "parse.h"
-#include <iostream>
+
 //test1 functions
 void Begin(){
     std::cout << "start parse ";
@@ -9,11 +9,11 @@ void End(){
     std::cout << " finish parse";
 }
 
-void onNumberFound(const char* n){
+void onNumberFound(int n){
         std::cout << n << "||";
 }
 
-void onLetterFound(const char* n){
+void onLetterFound(std::string n){
         std::cout << n << "??";
 }
 //test2 functions
@@ -23,10 +23,10 @@ void Begin1(){
 void End1(){
     std::cout << "finish parse\n";
 }
-void onNumberFound1(const char* n){
+void onNumberFound1(int n){
         std::cout << "number: " << n << std::endl;
 }
-void onLetterFound1(const char* n){
+void onLetterFound1(std::string n){
         std::cout << "string: " << n << std::endl;
 }
 

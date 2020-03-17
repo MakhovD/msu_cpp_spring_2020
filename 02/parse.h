@@ -1,11 +1,10 @@
-#include <string.h>
-#include <ctype.h>
-#include <iostream>
+#include <iostream> 
+#include <string> 
+#include <cstddef>
 
-using OnToken = void (*)(const char* token);  
+using OnLetter = void (*)(std::string token);  
 using OnLim = void (*)();
+using OnNumber = void (*)(int token);
 
-void register_token_callback(const char* word, OnToken onNumber, OnToken onLetter);
-
-void parse(const char* text, OnToken onNumber, OnToken onLetter, OnLim onBegin, OnLim onEnd);
+void parse(std::string str, OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd);
 

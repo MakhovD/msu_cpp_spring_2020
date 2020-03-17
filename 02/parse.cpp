@@ -1,22 +1,19 @@
 #include "parse.h"
 
+void parse(std::string str, OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd){
+    fBegin();
+    size_t pos_1 = 0;
+    size_t found;
+    std::string token;
 
-void register_token_callback(const char* word, OnToken onNumber, OnToken onLetter){
-	if (isdigit(word[0])) onNumber(word);
-	else onLetter(word);
-}
-
-void parse(const char* text, OnToken onNumber, OnToken onLetter, OnLim onBegin, OnLim onEnd){
-    onBegin();
-
-    char tx[strlen(text)];
-    strcpy(tx,text);
-    char* token = strtok (tx," \n\t"); 
-
-    while (token != NULL)
-    {
-        register_token_callback(token, onNumber, onLetter);
-        token = strtok (NULL, " \n\t");
+    while((found = str.find_first_of(" \n\t", pos_1))!=std::string::npos){
+        token = str.substr(pos_1, found-pos_1);
+        if (isdigit(token[0])){
+            int number = atoi(token.c_str());
+            fNumber(number);
+        }
+        else fLetter(token);
+        pos_1 = str.find_first_not_of(" \n\t", found);
     }
-    onEnd();
+    fEnd();
 }

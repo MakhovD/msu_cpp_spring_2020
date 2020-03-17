@@ -1,6 +1,27 @@
 #include "parse.h"
 
-void parse(std::string str, OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd){
+static OnNumber fNumber;
+static OnLetter fLetter;
+static OnLim fBegin;
+static OnLim fEnd;
+
+void register_on_number_callback(OnNumber callback){
+    fNumber = callback;
+}
+
+void register_on_letter_callback(OnLetter callback){
+    fLetter = callback;
+}
+
+void register_on_begin_callback(OnLim callback){
+    fBegin = callback;
+}
+
+void register_on_end_callback(OnLim callback){
+    fEnd = callback;
+}
+
+void parse(const std::string str){//, OnNumber fNumber, OnLetter fLetter, OnLim fBegin, OnLim fEnd){
     fBegin();
     size_t pos_1 = 0;
     size_t found;

@@ -1,6 +1,6 @@
 #include "parse.h"
 
-//test1 functions
+
 void Begin(){
     std::cout << "start parse ";
 }
@@ -16,30 +16,12 @@ void onNumberFound(int n){
 void onLetterFound(std::string n){
         std::cout << n << "??";
 }
-//test2 functions
-void Begin1(){
-    std::cout << "\nstart parse\n";
-}
-void End1(){
-    std::cout << "finish parse\n";
-}
-void onNumberFound1(int n){
-        std::cout << "number: " << n << std::endl;
-}
-void onLetterFound1(std::string n){
-        std::cout << "string: " << n << std::endl;
-}
 
 int main(){
-    parse("123 abc\n4567\tHello", onNumberFound, onLetterFound, Begin, End);
-    // start parse 123||abc??4567||Hello?? finish parse
-
-    parse("Hello\n world 19999\t500", onNumberFound1, onLetterFound1, Begin1, End1);
-    /*start parse
-    string: Hello
-    string: world
-    number: 19999
-    number: 500
-    finish pars*/
+    register_on_number_callback(onNumberFound);
+    register_on_letter_callback(onLetterFound);
+    register_on_begin_callback(Begin);
+    register_on_end_callback(End);
+    parse("123 abc\n4567\tHello");
     return 0;
 }

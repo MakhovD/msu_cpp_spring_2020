@@ -16,7 +16,7 @@ void onNumberFound(int n){
         std::cout << n << "||";
 }
 
-void onLetterFound(std::string n){
+void onLetterFound(const std::string& n){
         std::cout << n << "??";
 }
 

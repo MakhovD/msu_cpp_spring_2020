@@ -2,7 +2,7 @@
 #include <string> 
 #include <cstddef>
 
-using OnLetter = void (*)(std::string token);  
+using OnLetter = void (*)(const std::string& token);  
 using OnLim = void (*)();
 using OnNumber = void (*)(int token);
 

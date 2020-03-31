@@ -28,7 +28,7 @@ class Serializer
         }
 
         template <class... ArgsT>
-        Error operator()(ArgsT... args)
+        Error operator()(ArgsT&... args)
         {
             return process(args...);
         }

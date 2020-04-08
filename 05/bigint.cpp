@@ -22,7 +22,8 @@ BigInt::BigInt(int value) {
     }
 
     size = count_size(value);
-    mem = (char*)malloc(sizeof(char)*size);
+    //mem = (char*)malloc(sizeof(char)*size);
+    mem = new char[size];
 
     for (int i = 0; i<size; i++){
         mem[i]=value%10 + '0';
@@ -34,17 +35,20 @@ BigInt::BigInt(int value) {
 BigInt::BigInt(){
     sign = 1;
     size = 2;
-    mem = (char*)malloc(sizeof(char)*size);
+    //mem = (char*)malloc(sizeof(char)*size);
+    mem = new char[size];
     mem[0]='0';
     mem[1]='\0';
 }
 
 BigInt::~BigInt(){
-    free(mem);
+    //free(mem);
+    delete[] mem;
 }
 
 BigInt::BigInt(const BigInt& copied)
-    :mem((char*)malloc(sizeof(char)*copied.size))
+    //:mem((char*)malloc(sizeof(char)*copied.size))
+    : mem(new char[copied.size])
     , size(copied.size)
     , sign(copied.sign)
 {
@@ -56,8 +60,10 @@ BigInt& BigInt::operator=(const BigInt& copied)
     if(this == &copied){
         return *this;
     }
-    char* ptr = (char*)malloc(sizeof(char) * (copied.size));
-    free(mem);
+    //char* ptr = (char*)malloc(sizeof(char) * (copied.size));
+    char* ptr = new char[copied.size];
+    //free(mem);
+    delete[] mem;
     mem = ptr;
     size = copied.size;
     sign = copied.sign;
@@ -79,7 +85,8 @@ BigInt::BigInt(BigInt&& moved)
 BigInt& BigInt::operator=(BigInt&& moved){
     if (this == &moved)
         return *this;
-    free(mem);
+    //free(mem);
+    delete [] mem;
     mem = moved.mem;
     size = moved.size;
     sign = moved.sign;
@@ -211,8 +218,10 @@ BigInt BigInt::operator+(const BigInt & other) const
         min_size = size;
     }
 
-    char* ptr = (char*)malloc(sizeof(char) * (max_size + 2));
-    free(res.mem);
+    //char* ptr = (char*)malloc(sizeof(char) * (max_size + 2));
+    char* ptr = new char[max_size + 2];
+    //free(res.mem);
+    delete [] res.mem;
     res.mem = ptr;
     while (i < min_size)
     {
@@ -285,8 +294,10 @@ BigInt BigInt::operator-(const BigInt & other) const
         max_size = other.size;
         min_size = size;
     }
-    char* ptr = (char*)malloc(sizeof(char) * (max_size + 1));
-    free(res.mem);
+    //char* ptr = (char*)malloc(sizeof(char) * (max_size + 1));
+    char* ptr = new char[max_size + 1];
+    //free(res.mem);
+    delete[] res.mem;
     res.mem = ptr;
     while (i < min_size)
     {
@@ -335,7 +346,8 @@ void BigInt::delete_zeros()
         *this = z;
         return;
     }
-    char* ptr = (char*)malloc(sizeof(char) * (i + 2));
+    //char* ptr = (char*)malloc(sizeof(char) * (i + 2));
+    char* ptr = new char[i+2];
     ptr[i + 1] = '\0';
     size = i + 1;
     while (i >= 0)
@@ -343,7 +355,8 @@ void BigInt::delete_zeros()
         ptr[i] = mem[i];
         i--;
     }
-    free(mem);
+    //free(mem);
+    delete[] mem;
     mem = ptr;
     return;
 }

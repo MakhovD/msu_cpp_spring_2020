@@ -3,6 +3,8 @@
 #include <vector>
 #include <cctype>
 #include <exception> 
+#include <stdlib.h>
+#include <iostream>
 
 
 template<class T>
@@ -19,15 +21,22 @@ std::string format(const std::string& str, ArgsT&&... args){
 
     std::vector<std::string> args_new = {args_to_str(std::forward<ArgsT>(args))... };
 
-    int size = str.size();
-    int args_size = args_new.size();
+    size_t size = str.size();
+    size_t args_size = args_new.size();
     bool open = false;
     bool check_closed = false;
+    std::string temp;
 
-    for(int i = 0; i < size; i++){
+    for(size_t i = 0; i < size; i++){
+
         if(check_closed){
             if(str[i] == '}'){
                 check_closed = false;
+                out << args_new[atoi(temp.c_str())];
+                temp.clear();
+                continue;
+            } else if(std::isdigit(str[i])){
+                temp+=str[i];
                 continue;
             } else {
                 throw std::runtime_error("bracket not closed");
@@ -36,8 +45,8 @@ std::string format(const std::string& str, ArgsT&&... args){
 
         if(open){
             if(std::isdigit(str[i])){
-                if(str[i] - '0' < args_size){
-                    out << args_new[str[i]-'0'];
+                if(str[i]-'0' < args_size){
+                    temp += str[i];
                     check_closed = true;
                     open = false;
                 } else {

@@ -5,9 +5,13 @@ template <class T>
 class Allocator
 {
 public:
-
     T* allocate(size_t n){
-        return static_cast<T*>(operator new(n * sizeof(T)));
+        T* p = static_cast<T*>(malloc(sizeof(T) * n));
+        if (p == nullptr)
+        {
+            throw std::bad_alloc();
+        }
+        return p; 
     }
 
     void deallocate(T* p, size_t n){
@@ -15,7 +19,8 @@ public:
     }
 
     template <class... Args>
-    void construct(T* p, Args&&... args){
+    void construct(T* p, Args&&... args)
+    {
         new(p) T(std::forward<Args>(args)...);
     }
 
@@ -128,12 +133,10 @@ private:
 
 public:
 
-    explicit Vector(size_t n = 0)
-        : data_(allocat.allocate(n)),
-        cur_size(n), alloc_size(n) 
+    Vector()
+        : data_(allocat.allocate(0)),
+        cur_size(0), alloc_size(0) 
     {
-        for (size_t i = 0; i < cur_size; ++i)
-            allocat.construct(data_ + i);
     }
 
     ~Vector(){
@@ -177,7 +180,7 @@ public:
     }
 
     bool empty() const {
-        return cur_size == 0;
+        return cur_size == alloc_size;
     }
 
     Iterator<T> begin() const {

@@ -35,7 +35,7 @@ public:
             }
         }
     }
-    explicit ThreadPool(size_t s) : finish(false) , size(s){
+    ThreadPool(size_t s) : finish(false) , size(s){
         for(int i = 0; i < s; i++) {
             workers.push_back(std::thread([this] {
                 this->thread_f();

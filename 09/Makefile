@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++14 -O2
+CFLAGS = -std=c++17
 default: run
 
 run: gen sort tests
